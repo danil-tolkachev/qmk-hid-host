@@ -13,6 +13,7 @@ fn send_media_data(metadata: &Metadata, data_sender: &mpsc::Sender<Vec<u8>>, cur
         tracing::info!("new artist: {}", new_artist);
         artist = new_artist;
         send_data(DataType::MediaArtist, &artist, &data_sender);
+        std::thread::sleep(std::time::Duration::from_millis(50));
     }
 
     let new_title = metadata.title().unwrap_or_default().to_string();
