@@ -112,8 +112,7 @@ fn start_write(name: &String, device: HidDevice, is_connected: &Arc<AtomicBool>,
         tracing::debug!("{}: waiting for data to send...", name);
         if let Ok(mut received) = host_to_device_receiver.blocking_recv() {
             tracing::info!("{}: sending {:?}", name, received);
-            received.truncate(32);
-            received.insert(0, 0);
+            received.resize(32, 0);
             if let Err(_) = device.write(received.as_mut()) {
                 is_connected.store(false, Relaxed);
                 break;
